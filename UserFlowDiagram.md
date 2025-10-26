@@ -10,4 +10,3 @@ https://www.figma.com/design/CngAAU3e36xtndaaDLm9G1/%E7%94%BB%E9%9D%A2%E9%81%B7%
 
 ### 未ログインでも閲覧または利用できるページ
 - [ ] 全画面が対象（ログイン機能を持たないため）
-
