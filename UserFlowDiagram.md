@@ -1,5 +1,3 @@
-# User Flow Diagram
+# 画面遷移図
 
-以下が画面遷移図（User Flow Diagram）です。
-
-Figma URL: https://xxxxxxx（あなたの画面遷移図URL）
+参考Figma：https://www.figma.com/design/CngAAU3e36xtndaaDLm9G1/%E7%94%BB%E9%9D%A2%E9%81%B7%E7%A7%BB%E5%9B%B3?node-id=0-1&t=JaZ6MuyhU8IZrlEZ-1
