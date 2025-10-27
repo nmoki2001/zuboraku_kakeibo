@@ -14,16 +14,16 @@ MVP段階では、以下の4つのテーブルで構成しています。
 
 本サービスは、「最小限の入力で家計を自動整理・分析できる家計簿アプリ」です。  
 従来の家計簿アプリは入力項目が多く、継続的に記録するのが難しいという課題がありました。  
-本アプリでは「日付」「支出内容」「金額」のみを入力すれば、AIが自動で支出・収入の項目を分類し、定期的に全体の傾向を分析して「良い点」「改善点」を提示します。  
+本アプリでは「日付」「内容」「金額」のみを入力すれば、AIが自動で支出・収入の項目を分類し、定期的に全体の傾向を分析して「良い点」「改善点」を提示します。  
 これにより、ユーザーは煩雑な入力作業から解放され、自然に家計の改善ポイントを把握できます。  
 想定ユーザーは「家計簿アプリは難しい」「続けられない」と感じる社会人・学生などのライトユーザーです。  
 主な機能は、①支出・収入の入力、②生成AIによる自動分類、③AIによる分析レポート出力の3点です。  
-MVP段階では、AI分類と分析を中心とした最低限の流れを実装し、将来的に「月次分析」「ユーザー登録」「グラフ表示」などへ拡張できる構成としています。
+MVP段階では、AI分類と分析を中心とした最低限の流れを実装し、将来的に「月次分析」「グラフ表示」などへ拡張できる構成としています。
 
 ---
 
 ## MVPで実装する予定の機能
-- 「日付」＋「支出内容」＋「金額」の入力フォーム  
+- 「日付」＋「内容」＋「金額」の入力フォーム  
 - AIによる支出・収入項目の自動分類  
 - AIによる家計分析（良い点・改善点の自動生成）  
 - 1日3回までの分析実行制限  
@@ -34,46 +34,46 @@ MVP段階では、AI分類と分析を中心とした最低限の流れを実装
 ## テーブル詳細
 
 ### CATEGORIESテーブル
-| カラム名 | 型 | 説明 |
-|-----------|----|------|
-| id | bigint | 主キー |
-| name | string | 項目名（例：食費、給与） |
-| kind | enum(expense/income) | 支出・収入の区別 |
-| created_at / updated_at | datetime | 登録・更新日時 |
+| 型 | カラム名 | 説明 |
+|----|-----------|------|
+| bigint | id | 主キー |
+| string | name | 項目名（例：食費、給与） |
+| enum(expense/income) | kind | 支出・収入の区別 |
+| datetime | created_at / updated_at | 登録・更新日時 |
 
 ---
 
 ### TRANSACTIONSテーブル
-| カラム名 | 型 | 説明 |
-|-----------|----|------|
-| id | bigint | 主キー |
-| occurred_on | date | 日付 |
-| description | string | 内容（例：ランチ、給料） |
-| amount | int | 金額（正の整数） |
-| direction | enum(income/expense) | 収入または支出 |
-| category_id | bigint（FK） | CATEGORIES.id（AI確定前はNULL） |
-| created_at / updated_at | datetime | 登録・更新日時 |
+| 型 | カラム名 | 説明 |
+|----|-----------|------|
+| bigint | id | 主キー |
+| date | occurred_on | 日付 |
+| string | description | 内容（例：ランチ、給料） |
+| int | amount | 金額（正の整数） |
+| enum(income/expense) | direction | 収入または支出 |
+| bigint（FK） | category_id | CATEGORIES.id（AI確定前はNULL） |
+| datetime | created_at / updated_at | 登録・更新日時 |
 
 ---
 
 ### AI_CLASSIFICATIONSテーブル
-| カラム名 | 型 | 説明 |
-|-----------|----|------|
-| id | bigint | 主キー |
-| transaction_id | bigint（FK） | 対象となる取引 |
-| method | enum(rule/ai) | 分類方法（ルール or AI） |
-| predicted_category_id | bigint（FK） | 推定されたカテゴリID |
-| created_at | datetime | 推定日時 |
+| 型 | カラム名 | 説明 |
+|----|-----------|------|
+| bigint | id | 主キー |
+| bigint（FK） | transaction_id | 対象となる取引 |
+| enum(rule/ai) | method | 分類方法（ルール or AI） |
+| bigint（FK） | predicted_category_id | 推定されたカテゴリID |
+| datetime | created_at | 推定日時 |
 
 ---
 
 ### ANALYSISテーブル
-| カラム名 | 型 | 説明 |
-|-----------|----|------|
-| id | bigint | 主キー |
-| good_points | text | AIが生成した「良い点」 |
-| improvements | text | AIが生成した「改善点」 |
-| created_at | datetime | 分析実行日時（1日3回制限のカウントにも使用） |
+| 型 | カラム名 | 説明 |
+|----|-----------|------|
+| bigint | id | 主キー |
+| text | good_points | AIが生成した「良い点」 |
+| text | improvements | AIが生成した「改善点」 |
+| datetime | created_at | 分析実行日時（1日3回制限のカウントにも使用） |
 
 ---
 
