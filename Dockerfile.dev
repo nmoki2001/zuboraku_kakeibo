@@ -1,0 +1,27 @@
+# Dockerfile.dev
+FROM ruby:3.3.6
+
+ENV LANG=C.UTF-8 \
+    TZ=Asia/Tokyo
+
+RUN apt-get update -qq && \
+    apt-get install -y --no-install-recommends \
+      build-essential \
+      libpq-dev \
+      postgresql-client \
+      curl \
+      tzdata && \
+    rm -rf /var/lib/apt/lists/*
+
+# 作業ディレクトリ
+WORKDIR /myapp
+
+# Bundler
+RUN gem install bundler
+
+# 依存関係をキャッシュさせるために先に Gemfile 系だけコピー
+COPY Gemfile Gemfile.lock ./
+RUN bundle install
+
+# アプリ本体
+COPY . .
