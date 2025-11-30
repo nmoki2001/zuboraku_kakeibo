@@ -17,6 +17,28 @@ class EntriesController < ApplicationController
     end
   end
 
+  def edit
+    @entry = Entry.find(params[:id])
+  end
+
+  def update
+    @entry = Entry.find(params[:id])
+
+    if @entry.update(entry_params)
+      # 戻りたい画面に合わせて変更してください（今は入力画面に戻す）
+      redirect_to new_entry_path, notice: "修正しました"
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @entry = Entry.find(params[:id])
+    @entry.destroy!
+    # ここも戻り先はお好みで
+    redirect_to new_entry_path, notice: "削除しました"
+  end
+
   private
 
   def entry_params

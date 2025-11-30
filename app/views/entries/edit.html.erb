@@ -1,0 +1,58 @@
+<div class="zk-wrapper">
+  <div class="zk-card">
+    <!-- 上部タイトル -->
+    <header class="zk-header">
+      <div class="zk-title">ズボ楽家計簿</div>
+    </header>
+
+    <!-- 「修正」セクション -->
+    <section class="zk-section">
+      <div class="zk-section-label">
+        修正
+        <span class="zk-edit-icon">✏️</span>
+      </div>
+
+      <%= form_with model: @entry, local: true, class: "zk-form" do |f| %>
+        <div class="zk-field">
+          <label class="zk-field-label">日付</label>
+          <%= f.date_field :occurred_on, class: "zk-input" %>
+        </div>
+
+        <div class="zk-field">
+          <label class="zk-field-label">内容</label>
+          <%= f.text_field :description, class: "zk-input" %>
+        </div>
+
+        <div class="zk-field">
+          <label class="zk-field-label">項目</label>
+          <%= f.collection_select :category_id,
+                                  Category.all, :id, :name,
+                                  { include_blank: "選択してください" },
+                                  { class: "zk-input" } %>
+        </div>
+
+        <div class="zk-field">
+          <label class="zk-field-label">金額</label>
+          <%= f.number_field :amount, class: "zk-input", step: 1, min: 0 %>
+        </div>
+
+        <div class="zk-submit-wrapper">
+          <%= f.submit "修正する", class: "zk-button" %>
+        </div>
+      <% end %>
+
+      <hr class="zk-divider">
+
+      <!-- 削除ボタン -->
+      <div class="zk-submit-wrapper">
+        <%= button_to "削除する",
+                      @entry,
+                      method: :delete,
+                      data: { confirm: "本当に削除しますか？" },
+                      class: "zk-button zk-button--danger" %>
+      </div>
+    </section>
+  </div>
+
+  <%= render "shared/bottom_nav" %>
+</div>
