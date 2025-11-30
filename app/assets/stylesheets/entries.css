@@ -262,3 +262,11 @@ body {
   color: #fff;
 }
 
+/* 編集画面：削除ボタン用 */
+.zk-button--danger {
+  background-color: #b33a3a;
+}
+
+.zk-button--danger:hover {
+  background-color: #cc4b4b;
+}

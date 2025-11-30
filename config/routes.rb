@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   # root "posts#index"
   root "entries#new"
 
-  resources :entries, only: [:new, :create, :edit, :update]
+  resources :entries, only: [:new, :create, :edit, :update, :destroy]
   resource :analysis, only: :show, controller: :analysis
 
 end
