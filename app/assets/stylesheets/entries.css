@@ -100,6 +100,15 @@ body {
   background-color: #666;
 }
 
+/* 削除用ボタン */
+.zk-button--danger {
+  background-color: #b33a3a;
+}
+
+.zk-button--danger:hover {
+  background-color: #cc4b4b;
+}
+
 .zk-divider {
   border: none;
   border-top: 1px solid #444;
@@ -261,6 +270,10 @@ body {
 .zk-edit-icon:hover {
   color: #fff;
 }
+
+/* =========================================================
+   その他画面（リスト）
+   ========================================================= */
 
 .zk-list {
   list-style: none;
