@@ -100,6 +100,15 @@ body {
   background-color: #666;
 }
 
+/* 削除用ボタン */
+.zk-button--danger {
+  background-color: #b33a3a;
+}
+
+.zk-button--danger:hover {
+  background-color: #cc4b4b;
+}
+
 .zk-divider {
   border: none;
   border-top: 1px solid #444;
@@ -262,11 +271,43 @@ body {
   color: #fff;
 }
 
-/* 編集画面：削除ボタン用 */
-.zk-button--danger {
-  background-color: #b33a3a;
+/* =========================================================
+   その他画面（リスト）
+   ========================================================= */
+
+.zk-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-radius: 4px;
+  overflow: hidden;
+  border-top: 1px solid #444;
+  border-bottom: 1px solid #444;
 }
 
-.zk-button--danger:hover {
-  background-color: #cc4b4b;
+.zk-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  background-color: #2c2c2c;
+  border-top: 1px solid #333;
+}
+
+.zk-list-item:first-child {
+  border-top: none;
+}
+
+.zk-list-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.zk-list-icon {
+  font-size: 16px;
+}
+
+.zk-list-label {
+  font-size: 14px;
 }
