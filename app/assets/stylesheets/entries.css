@@ -34,7 +34,7 @@ body {
   font-weight: 600;
 }
 
-/* セクション（支出 / 収入） */
+/* セクション（支出 / 収入 / 分析など共通） */
 .zk-section {
   margin-bottom: 24px;
 }
@@ -135,6 +135,7 @@ body {
   border-radius: 999px;      /* pill 形にしてボタン感を出す */
   font-size: 12px;
   color: #aaa;
+  text-decoration: none;
 }
 
 /* アイコン */
@@ -161,3 +162,103 @@ body {
     margin: 16px auto 0;
   }
 }
+
+/* =========================================================
+   ここから分析画面用のスタイル
+   ========================================================= */
+
+/* 明細テーブル全体 */
+.zk-table-container {
+  margin-top: 4px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #444;
+}
+
+.zk-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.zk-table th,
+.zk-table td {
+  padding: 6px 10px;
+}
+
+.zk-table thead {
+  background-color: #3a3a3a;
+  font-weight: 600;
+}
+
+.zk-table tbody tr + tr {
+  border-top: 1px solid #444;
+}
+
+.zk-table-col-right {
+  text-align: right;
+  width: 80px;
+}
+
+/* 金額の色分け */
+.zk-amount-expense {
+  color: #ff5c5c; /* 支出（赤） */
+}
+
+.zk-amount-income {
+  color: #4aa8ff; /* 収入（青） */
+}
+
+/* 分析ボタン部分 */
+.zk-section-analysis-button {
+  margin-top: 16px;
+  text-align: center;
+}
+
+.zk-analysis-button {
+  width: 100%;
+  border-radius: 9999px;
+  border: none;
+  padding: 8px 0;
+  background: #3a3a3a;
+  color: #bbbbbb;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.zk-analysis-button:disabled {
+  opacity: 0.9;
+}
+
+.zk-analysis-note {
+  margin-top: 4px;
+  font-size: 10px;
+  color: #888888;
+}
+
+/* 分析コメント部分 */
+.zk-analysis-block {
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+.zk-analysis-heading {
+  font-weight: 600;
+}
+
+.zk-analysis-heading + p {
+  margin-top: 2px;
+}
+
+/* 編集アイコン（鉛筆） */
+.zk-edit-icon {
+  margin-left: 6px;
+  color: #ccc;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.zk-edit-icon:hover {
+  color: #fff;
+}
+

@@ -1,0 +1,70 @@
+<div class="zk-wrapper">
+  <div class="zk-card">
+    <!-- ヘッダー -->
+    <header class="zk-header">
+      <h1 class="zk-title">ズボ楽家計簿</h1>
+    </header>
+
+    <!-- 明細テーブル -->
+    <section class="zk-section">
+      <h2 class="zk-section-label">明細</h2>
+
+      <div class="zk-table-container">
+        <table class="zk-table">
+          <thead>
+            <tr>
+              <th>日付</th>
+              <th>内容</th>
+              <th>項目</th>
+              <th>金額</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @entries.each do |entry| %>
+              <tr>
+                <td><%= entry.occurred_on&.strftime("%-m/%-d") %></td>
+                <td><%= entry.description %></td>
+                <!-- 項目はまだ実装していないので一旦空欄 -->
+                <td></td>
+                <td class="zk-table-col-right">
+                  <% css = entry.direction == "income" ? "zk-amount-income" : "zk-amount-expense" %>
+                  <span class="<%= css %>">
+                    <%= number_with_delimiter(entry.amount) %>
+                  </span>
+
+                  <!-- 編集アイコン（リンク付き） -->
+                  <%= link_to edit_entry_path(entry), class: "zk-edit-icon" do %>
+                    <i class="fa-solid fa-pen"></i>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 分析ボタン -->
+    <section class="zk-section zk-section-analysis-button">
+      <button class="zk-analysis-button" disabled>分析</button>
+      <p class="zk-analysis-note">※1日3回まで利用できます</p>
+    </section>
+
+    <!-- 分析コメント -->
+    <section class="zk-section">
+      <h2 class="zk-section-label">分析</h2>
+
+      <div class="zk-analysis-block">
+        <p class="zk-analysis-heading">○良い点</p>
+        <p><%= @good_point %></p>
+      </div>
+
+      <div class="zk-analysis-block">
+        <p class="zk-analysis-heading">○改善点</p>
+        <p><%= @improve_point %></p>
+      </div>
+    </section>
+  </div>
+
+  <%= render "shared/bottom_nav" %>
+</div>

@@ -1,0 +1,19 @@
+<nav class="zk-bottom-nav">
+  <%= link_to new_entry_path,
+              class: "zk-bottom-nav-item #{'zk-bottom-nav-item--active' if current_page?(new_entry_path)}" do %>
+    <span>✏️</span>
+    <span>入力</span>
+  <% end %>
+
+  <%= link_to analysis_path,
+              class: "zk-bottom-nav-item #{'zk-bottom-nav-item--active' if current_page?(analysis_path)}" do %>
+    <span>💡</span>
+    <span>分析</span>
+  <% end %>
+
+  <%= link_to "#",
+              class: "zk-bottom-nav-item" do %>
+    <span>⋯</span>
+    <span>その他</span>
+  <% end %>
+</nav>
