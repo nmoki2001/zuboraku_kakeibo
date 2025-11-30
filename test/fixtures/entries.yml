@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  occurred_on: 2025-11-15
+  description: MyString
+  amount: 1
+  direction: 1
+  category: one
+
+two:
+  occurred_on: 2025-11-15
+  description: MyString
+  amount: 1
+  direction: 1
+  category: two

@@ -1,0 +1,86 @@
+<!-- app/views/entries/new.html.erb -->
+
+<div class="zk-wrapper">
+  <div class="zk-card">
+
+    <!-- ヘッダー -->
+    <header class="zk-header">
+      <h1 class="zk-title">ズボ楽家計簿</h1>
+    </header>
+
+    <!-- 支出フォーム -->
+    <section class="zk-section">
+      <h2 class="zk-section-label">支出</h2>
+
+      <%= form_with model: @expense_entry, url: entries_path, local: true, class: "zk-form" do |f| %>
+        <div class="zk-field">
+          <label class="zk-field-label">日付</label>
+          <%= f.date_field :occurred_on, class: "zk-input" %>
+        </div>
+
+        <div class="zk-field">
+          <label class="zk-field-label">内容</label>
+          <%= f.text_field :description, placeholder: "支出を入力する", class: "zk-input" %>
+        </div>
+
+        <div class="zk-field">
+          <label class="zk-field-label">金額</label>
+          <%= f.number_field :amount, class: "zk-input", min: 0 %>
+        </div>
+
+        <%= f.hidden_field :direction, value: :expense %>
+
+        <div class="zk-submit-wrapper">
+          <%= f.submit "支出を入力する", class: "zk-button" %>
+        </div>
+      <% end %>
+    </section>
+
+    <hr class="zk-divider" />
+
+    <!-- 収入フォーム -->
+    <section class="zk-section">
+      <h2 class="zk-section-label">収入</h2>
+
+      <%= form_with model: @income_entry, url: entries_path, local: true, class: "zk-form" do |f| %>
+        <div class="zk-field">
+          <label class="zk-field-label">日付</label>
+          <%= f.date_field :occurred_on, class: "zk-input" %>
+        </div>
+
+        <div class="zk-field">
+          <label class="zk-field-label">内容</label>
+          <%= f.text_field :description, placeholder: "収入を入力する", class: "zk-input" %>
+        </div>
+
+        <div class="zk-field">
+          <label class="zk-field-label">金額</label>
+          <%= f.number_field :amount, class: "zk-input", min: 0 %>
+        </div>
+
+        <%= f.hidden_field :direction, value: :income %>
+
+        <div class="zk-submit-wrapper">
+          <%= f.submit "収入を入力する", class: "zk-button" %>
+        </div>
+      <% end %>
+    </section>
+
+  </div>
+
+  <!-- ボトムナビ（ダミー） -->
+  <nav class="zk-bottom-nav">
+    <div class="zk-bottom-nav-item zk-bottom-nav-item--active">
+      <span>✏️</span>
+      <span>入力</span>
+    </div>
+    <div class="zk-bottom-nav-item">
+      <span>💡</span>
+      <span>分析</span>
+    </div>
+    <div class="zk-bottom-nav-item">
+      <span>⋯</span>
+      <span>その他</span>
+    </div>
+  </nav>
+</div>
