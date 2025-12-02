@@ -26,7 +26,7 @@
         <div class="zk-field">
           <label class="zk-field-label">項目</label>
           <%= f.collection_select :category_id,
-                                  Category.all, :id, :name,
+                                  Category.all, :id, :display_name,
                                   { include_blank: "選択してください" },
                                   { class: "zk-input" } %>
         </div>
