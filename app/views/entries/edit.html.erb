@@ -25,8 +25,9 @@
 
         <div class="zk-field">
           <label class="zk-field-label">項目</label>
+          <% categories = Category.where(kind: @entry.direction) %>
           <%= f.collection_select :category_id,
-                                  Category.all, :id, :name,
+                                  categories, :id, :display_name,
                                   { include_blank: "選択してください" },
                                   { class: "zk-input" } %>
         </div>
