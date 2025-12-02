@@ -1,6 +1,5 @@
 class Entry < ApplicationRecord
-  belongs_to :category, optional: true   # AIが分類するまではNULL
-
+  belongs_to :category, optional: true
   has_many :ai_classifications, dependent: :destroy
 
   enum :direction, { income: 0, expense: 1 }
@@ -12,23 +11,39 @@ class Entry < ApplicationRecord
             numericality: { only_integer: true, greater_than: 0 }
   validates :direction, presence: true
 
-  # カテゴリ未設定で、説明があるときだけルールベース分類を実行
-  before_validation :assign_category_by_rule, if: -> { category_id.blank? && description.present? }
+  # カテゴリ未設定で説明があるときだけ自動分類
+  before_validation :assign_category_automatically,
+                    if: -> { category_id.blank? && description.present? }
 
   private
 
-  def assign_category_by_rule
-    # ルールベース分類の結果（例：:food, :transport, :salary, :other）
-    category_key = ::RuleBasedCategorizer.call(
-      direction: direction,        # "expense" or "income"（enumの文字列）
+  def assign_category_automatically
+    # ① ルールベース
+    rule_key = ::RuleBasedCategorizer.call(
+      direction: direction,
       description: description,
       amount: amount
     )
 
-    # 判定できなかった / other の場合は何もしない
-    return if category_key.blank? || category_key.to_sym == :other
+    if rule_key.present? && rule_key.to_sym != :other
+      if (found = Category.find_by(name: rule_key.to_s))
+        self.category = found
+        return   # ルールで判定できたのでここで終了
+      end
+    end
 
-    # categories.name に "food" / "salary" などを入れておく想定
-    self.category ||= Category.find_by(name: category_key.to_s)
+    # ② ルールで決まらなかったら AI
+    ai_key = ::AiCategorizer.call(
+      direction: direction,
+      description: description,
+      amount: amount,
+      occurred_on: occurred_on
+    )
+
+    Rails.logger.info("[Entry] ai_key=#{ai_key.inspect} for desc=#{description.inspect}")
+
+    return if ai_key.blank?  # ← :other でも nil でもない場合だけ続ける
+
+    self.category ||= Category.find_by(name: ai_key.to_s)
   end
 end
