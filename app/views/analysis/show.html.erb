@@ -24,8 +24,8 @@
               <tr>
                 <td><%= entry.occurred_on&.strftime("%-m/%-d") %></td>
                 <td><%= entry.description %></td>
-                <!-- 項目はまだ実装していないので一旦空欄 -->
-                <td></td>
+                <td><%= entry_category_label(entry) %></td>
+
                 <td class="zk-table-col-right">
                   <% css = entry.direction == "income" ? "zk-amount-income" : "zk-amount-expense" %>
                   <span class="<%= css %>">
