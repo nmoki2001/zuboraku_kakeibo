@@ -224,19 +224,24 @@ body {
   text-align: center;
 }
 
+/* 押せる状態 */
 .zk-analysis-button {
   width: 100%;
   border-radius: 9999px;
   border: none;
   padding: 8px 0;
-  background: #3a3a3a;
-  color: #bbbbbb;
+  background: #5e5e5e;   /* ← 押せる色をやや明るく */
+  color: #ffffff;        /* ← 白字で「押せる感」を出す */
   font-size: 13px;
   font-weight: 600;
+  opacity: 1;            /* ← 無効っぽく見えないように */
 }
 
+/* 本当に押せない状態 */
 .zk-analysis-button:disabled {
-  opacity: 0.9;
+  background: #3a3a3a;    /* ← enabled より明らかに暗い */
+  color: #888888;         /* ← disabled は薄い色に */
+  opacity: 0.5;           /* ← 押せなさを視覚化 */
 }
 
 .zk-analysis-note {

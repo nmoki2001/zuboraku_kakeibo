@@ -14,20 +14,20 @@ class Category < ApplicationRecord
   validates :name, presence: true
   validates :kind, presence: true
 
-  # ▼ 表示用の日本語ラベル
+  # ▼ カテゴリキー → 日本語表示名
+  CATEGORY_LABELS = {
+    "food"         => "食費",
+    "daily_goods"  => "日用品",
+    "transport"    => "交通",
+    "hobby"        => "趣味・娯楽",
+    "other"        => "その他",
+    "salary"       => "給与",
+    "bonus"        => "賞与",
+    "side_income"  => "副収入",
+    "other_income" => "その他収入"
+  }.freeze
+
   def display_name
-    case name
-    when "food"         then "食費"
-    when "daily_goods"  then "日用品"
-    when "transport"    then "交通"
-    when "hobby"        then "趣味・娯楽"
-    when "other"        then "その他"
-    when "salary"       then "給与"
-    when "bonus"        then "賞与"
-    when "side_income"  then "副収入"
-    when "other_income" then "その他収入"
-    else
-      name # 想定外のものはそのまま返す（デバッグ用）
-    end
+    CATEGORY_LABELS[name] || name
   end
 end

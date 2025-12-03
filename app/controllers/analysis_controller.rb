@@ -2,12 +2,12 @@ class AnalysisController < ApplicationController
   def show
     @entries = Entry.order(occurred_on: :asc)
 
-    # 今日使った回数（最大3回まで）
     today_count = AnalysisRequest.today.count
     @remaining_analyses = [0, 3 - today_count].max
-    @analysis_disabled = @remaining_analyses.zero?
 
-    # 前回の分析結果（セッション保存）
+    # 明細がゼロ or 回数上限 → ボタン無効
+    @analysis_disabled = @entries.blank? || @remaining_analyses.zero?
+
     @good_point    = session[:good_point]    || "まだ分析は実行されていません。"
     @improve_point = session[:improve_point] || "まずは明細をいくつか登録してから分析してみましょう。"
   end
