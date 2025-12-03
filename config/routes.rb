@@ -16,8 +16,8 @@ Rails.application.routes.draw do
   # Entry の新規・作成・編集・更新・削除
   resources :entries, only: [:new, :create, :edit, :update, :destroy]
 
-  # 分析画面
-  resource :analysis, only: :show, controller: :analysis
+  # 分析
+  resource :analysis, only: [:show, :create], controller: :analysis
 
   # その他画面
   get "others", to: "others#show", as: :others

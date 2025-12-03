@@ -1,3 +1,4 @@
+<!-- app/views/analysis/show.html.erb -->
 <div class="zk-wrapper">
   <div class="zk-card">
     <!-- ヘッダー -->
@@ -46,8 +47,19 @@
 
     <!-- 分析ボタン -->
     <section class="zk-section zk-section-analysis-button">
-      <button class="zk-analysis-button" disabled>分析</button>
-      <p class="zk-analysis-note">※1日3回まで利用できます</p>
+      <%= form_with url: analysis_path, method: :post, local: true do %>
+        <%= submit_tag "分析",
+                       class: "zk-analysis-button",
+                       disabled: @analysis_disabled %>
+      <% end %>
+
+      <p class="zk-analysis-note">
+        <% if @analysis_disabled %>
+          本日の分析回数（3回）を使い切りました。
+        <% else %>
+          本日はあと <%= @remaining_analyses %> 回まで分析できます。
+        <% end %>
+      </p>
     </section>
 
     <!-- 分析コメント -->
