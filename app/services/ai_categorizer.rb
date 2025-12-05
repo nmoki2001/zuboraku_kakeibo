@@ -88,7 +88,7 @@ class AiCategorizer
       temperature: 0 # ぶれを抑える
     )
 
-    raw_text = response.choices.dig(0, "message", "content")
+    raw_text = extract_content_from(response)
     Rails.logger.info("[AiCategorizer] raw output: #{raw_text.inspect} desc=#{@description.inspect}")
 
     normalized_key = normalize_label(raw_text)
@@ -108,6 +108,38 @@ class AiCategorizer
   private
 
   attr_reader :direction, :description, :amount, :occurred_on
+
+  # OpenAI のレスポンスから content を安全に取り出す
+  def extract_content_from(response)
+    # 新しい openai-ruby: OpenAI::Models::Chat::ChatCompletion
+    if response.respond_to?(:choices)
+      choice = response.choices.first
+
+      message =
+        if choice.respond_to?(:message)
+          choice.message
+        elsif choice.is_a?(Hash)
+          choice[:message] || choice["message"]
+        else
+          raise "Unexpected OpenAI choice object: #{choice.class}"
+        end
+
+      if message.respond_to?(:[])
+        message[:content] || message["content"]
+      elsif message.respond_to?(:content)
+        message.content
+      else
+        raise "Unexpected OpenAI message object: #{message.class}"
+      end
+
+    # 古い Hash 形式のフォールバック
+    elsif response.is_a?(Hash)
+      response.dig("choices", 0, "message", "content") ||
+        response.dig(:choices, 0, :message, :content)
+    else
+      raise "Unexpected OpenAI response type: #{response.class}"
+    end
+  end
 
   # モデルの出力を "food" などのキーに正規化する
   def normalize_label(text)

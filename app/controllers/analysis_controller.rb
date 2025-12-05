@@ -5,7 +5,7 @@ class AnalysisController < ApplicationController
     today_count = AnalysisRequest.today.count
     @remaining_analyses = [0, 3 - today_count].max
 
-    # 明細がゼロ or 回数上限 → ボタン無効
+    # 明細ゼロ or 回数上限 → ボタン無効
     @analysis_disabled = @entries.blank? || @remaining_analyses.zero?
 
     @good_point    = session[:good_point]    || "まだ分析は実行されていません。"
@@ -13,18 +13,17 @@ class AnalysisController < ApplicationController
   end
 
   def create
-    # 1日3回制限
     if AnalysisRequest.today.count >= 3
       redirect_to analysis_path, alert: "本日の分析回数（3回）を使い切りました。" and return
     end
 
-    # 分析実行記録（used_at の NOT NULL 制約にも対応）
     AnalysisRequest.create!(used_at: Time.current)
 
-    # 分析ロジック本体を実行
-    result = MonthlyAnalysis.call
+    # ★ AIベースの分析（中で失敗したらルールベースにフォールバック）
+    result = AiMonthlyAnalysis.call
 
-    # 表示用にセッションへ保存
+    Rails.logger.info "[AnalysisController] AI analysis good_point=#{result.good_point.to_s[0, 30]}..."
+
     session[:good_point]    = result.good_point
     session[:improve_point] = result.improve_point
 
