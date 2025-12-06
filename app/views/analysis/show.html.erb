@@ -45,9 +45,17 @@
       </div>
     </section>
 
-    <!-- 分析ボタン -->
+    <!-- 🔽 分析対象月セレクト + 分析ボタン -->
     <section class="zk-section zk-section-analysis-button">
+
       <%= form_with url: analysis_path, method: :post, local: true do %>
+        <div class="zk-field">
+          <label class="zk-field-label">分析する月</label>
+          <%= select_tag :month,
+                options_for_select(@month_options, @selected_month_param),
+                class: "zk-input" %>
+        </div>
+
         <%= submit_tag "分析",
                        class: "zk-analysis-button",
                        disabled: @analysis_disabled %>
@@ -62,9 +70,11 @@
       </p>
     </section>
 
-    <!-- 分析コメント -->
+    <!-- 🔽 分析した月の見出し（新規追加） -->
     <section class="zk-section">
-      <h2 class="zk-section-label">分析</h2>
+      <h2 class="zk-section-label">
+        <%= @analysis_month_label || "分析結果" %>
+      </h2>
 
       <div class="zk-analysis-block">
         <p class="zk-analysis-heading">○良い点</p>
