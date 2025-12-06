@@ -5,7 +5,8 @@ class AiMonthlyAnalysis
   Result = Struct.new(:good_point, :improve_point)
 
   # 呼び出し側は常にこれだけ使う
-  def self.call(reference_date: Date.current)
+  # 例: AiMonthlyAnalysis.call(reference_date: Date.current, anon_user_id: current_anon_user_id)
+  def self.call(reference_date: Date.current, anon_user_id:)
     unless defined?(OpenAIClient)
       Rails.logger.warn "[AiMonthlyAnalysis] OpenAIClient が定義されていないため、AIは使わず固定メッセージを返します。"
 
@@ -15,7 +16,7 @@ class AiMonthlyAnalysis
       )
     end
 
-    new(reference_date: reference_date).call
+    new(reference_date: reference_date, anon_user_id: anon_user_id).call
   rescue => e
     Rails.logger.error "[AiMonthlyAnalysis] error (class-level): #{e.class} #{e.message}"
 
@@ -26,8 +27,9 @@ class AiMonthlyAnalysis
     )
   end
 
-  def initialize(reference_date:)
-    @date = reference_date.to_date
+  def initialize(reference_date:, anon_user_id:)
+    @date         = reference_date.to_date
+    @anon_user_id = anon_user_id
   end
 
   def call
@@ -71,7 +73,7 @@ class AiMonthlyAnalysis
 
   private
 
-  attr_reader :date
+  attr_reader :date, :anon_user_id
 
   # ---------- OpenAI レスポンス処理 ----------
 
@@ -176,8 +178,9 @@ class AiMonthlyAnalysis
     date.prev_month.beginning_of_month..date.prev_month.end_of_month
   end
 
+  # ★ 匿名ユーザーごとにスコープ
   def expense_scope
-    Entry.where(direction: :expense)
+    Entry.for_anon_user(anon_user_id).where(direction: :expense)
   end
 
   def totals_by_category(range)

@@ -1,6 +1,8 @@
 class AnalysisController < ApplicationController
   def show
-    @entries = Entry.order(occurred_on: :asc)
+    # ★ ここを anon_user_id ベースに修正
+    @entries = Entry.for_anon_user(current_anon_user_id)
+                    .order(occurred_on: :asc)
 
     today_count = AnalysisRequest.today.count
     @remaining_analyses = [0, 3 - today_count].max
@@ -19,8 +21,10 @@ class AnalysisController < ApplicationController
 
     AnalysisRequest.create!(used_at: Time.current)
 
-    # ★ AIベースの分析（中で失敗したらルールベースにフォールバック）
-    result = AiMonthlyAnalysis.call
+    # ★ 分析も anon_user_id を渡すべき
+    result = AiMonthlyAnalysis.call(
+      anon_user_id: current_anon_user_id
+    )
 
     Rails.logger.info "[AnalysisController] AI analysis good_point=#{result.good_point.to_s[0, 30]}..."
 

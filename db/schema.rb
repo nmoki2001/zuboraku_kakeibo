@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_12_03_111452) do
+ActiveRecord::Schema[7.2].define(version: 2025_12_05_220857) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -55,6 +55,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_03_111452) do
     t.bigint "category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "anon_user_id"
+    t.index ["anon_user_id"], name: "index_entries_on_anon_user_id"
     t.index ["category_id"], name: "index_entries_on_category_id"
     t.index ["occurred_on"], name: "index_entries_on_occurred_on"
   end
