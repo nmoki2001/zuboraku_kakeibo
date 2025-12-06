@@ -56,13 +56,12 @@
                 class: "zk-input" %>
         </div>
 
-        <%= submit_tag "分析",
-                       class: "zk-analysis-button",
-                       disabled: @analysis_disabled %>
+        <!-- ✅ ボタンは常に押せる。実際の制限は create 側で行う -->
+        <%= submit_tag "分析", class: "zk-analysis-button" %>
       <% end %>
 
       <p class="zk-analysis-note">
-        <% if @analysis_disabled %>
+        <% if @remaining_analyses.zero? %>
           本日の分析回数（3回）を使い切りました。
         <% else %>
           本日はあと <%= @remaining_analyses %> 回まで分析できます。
@@ -70,7 +69,7 @@
       </p>
     </section>
 
-    <!-- 🔽 分析した月の見出し（新規追加） -->
+    <!-- 🔽 分析した月の見出し -->
     <section class="zk-section">
       <h2 class="zk-section-label">
         <%= @analysis_month_label || "分析結果" %>

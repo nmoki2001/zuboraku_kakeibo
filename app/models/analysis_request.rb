@@ -1,4 +1,7 @@
+# app/models/analysis_request.rb
 class AnalysisRequest < ApplicationRecord
-  # 今日分だけを取り出すためのスコープ
-  scope :today, -> { where(used_at: Time.zone.today.all_day) }
+  scope :today, -> {
+    Rails.logger.warn ">>> DEBUG: AnalysisRequest.today CALLED from: #{caller_locations(1,1).first}"
+    where(used_at: Time.zone.today.all_day)
+  }
 end
