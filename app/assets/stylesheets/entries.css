@@ -158,20 +158,6 @@ body {
   color: #fff;
 }
 
-/* 画面が広い（PC）のときはカードのすぐ下に置く */
-@media (min-width: 768px) {
-  .zk-wrapper {
-    min-height: auto;
-    padding-bottom: 32px;
-  }
-
-  .zk-bottom-nav {
-    position: static;          /* 固定解除してカード直下に */
-    max-width: 420px;
-    margin: 16px auto 0;
-  }
-}
-
 /* =========================================================
    ここから分析画面用のスタイル
    ========================================================= */
@@ -195,15 +181,40 @@ body {
   padding: 6px 10px;
 }
 
+/* ★ ヘッダーは基本左寄せにそろえる */
+.zk-table th {
+  text-align: left;
+}
+
+/* ヘッダー行 */
 .zk-table thead {
   background-color: #3a3a3a;
   font-weight: 600;
 }
 
+/* 金額ヘッダー */
+.zk-table th:last-child {
+  text-align: left;   /* ← 左揃えに変更 */
+  width: 80px;
+}
+
+/* 金額セル */
+.zk-table-col-right {
+  text-align: left;   /* ← 左揃えに変更 */
+  width: 80px;
+
+  /* 中身のレイアウトを調整 */
+  display: flex;
+  justify-content: space-between; /* 左（数字）と右（アイコン）を分離 */
+  align-items: center;
+}
+
+/* 行の区切り線 */
 .zk-table tbody tr + tr {
   border-top: 1px solid #444;
 }
 
+/* 金額列（中身） */
 .zk-table-col-right {
   text-align: right;
   width: 80px;
@@ -315,4 +326,26 @@ body {
 
 .zk-list-label {
   font-size: 14px;
+}
+
+/* 日付入力フィールドのカレンダーアイコンを白くする */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 0.8;
+}
+
+/* PC版：カード＆フッターのレイアウト調整 */
+@media (min-width: 768px) {
+  .zk-wrapper {
+    min-height: auto;
+    max-width: 480px;        /* PCのときは少し広めに */
+    margin: 0 auto;
+    padding-bottom: 32px;
+  }
+
+  .zk-bottom-nav {
+    position: static;        /* 固定解除してカード直下に */
+    max-width: 480px;
+    margin: 16px auto 24px;  /* 上下の余白 */
+  }
 }
